@@ -6,3 +6,10 @@ body {
 div {
   margin-top: 10px;
 }
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+  list-style-type: none;
+}
