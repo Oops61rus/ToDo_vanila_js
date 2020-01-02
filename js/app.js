@@ -3,7 +3,7 @@
 // var field = document.querySelector('#inputField');
 // var todoList = document.querySelector('#todoList');
 // var newTodo = document.querySelector('#newTodo');
-// // var todoList = document.querySelector('#pagingContainer');
+// var todoList = document.querySelector('#pagingContainer');
 
 // function Task(value) {
 //     this.id = new Date().getTime();
@@ -58,27 +58,32 @@ var field = document.querySelector('#inputField');
 var todoList = document.querySelector('#todoList');
 var newTodo = document.querySelector('#newTodo');
 
-function task() {
+function getTextTask() {
     var todo = field.value;
-    todoList.innerHTML = todo;
+    todoList.append(todo);
     return todo;
 }
 
 function createBtn(text) {
     var btn = document.createElement('button');
-    btn.innerHTML = text;
+    btn.append(text);
     return btn;
 }
 
 function createTask() {
-    var list = document.createElement('li');
     var div = document.createElement('div');
-    list.classList.add('container');
-    list.append(div);
-    div.append(task());
-    div.append(createBtn('Delete'));
+    var listItem = document.createElement('li');
+
     div.append(createBtn('Complete'));
-    return list;
+    div.append(getTextTask());
+    div.append(createBtn('Delete'));
+
+    listItem.classList.add('container');
+    listItem.append(div);  
+    
+    console.log(listItem); 
+
+    todoList.append(listItem);
 }
 
-newTodo.addEventListener('click', createTask);
+newTodo.addEventListener('click', createTask);     
