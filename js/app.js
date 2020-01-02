@@ -72,10 +72,12 @@ function createBtn(text) {
 
 function createTask() {
     var list = document.createElement('li');
+    var div = document.createElement('div');
     list.classList.add('container');
-    list.append(task());
-    list.append(createBtn('Delete'));
-    list.append(createBtn('Complete'));
+    list.append(div);
+    div.append(task());
+    div.append(createBtn('Delete'));
+    div.append(createBtn('Complete'));
     return list;
 }
 
