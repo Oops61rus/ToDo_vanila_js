@@ -2,17 +2,18 @@ var field = document.querySelector('#inputField');
 var todoList = document.querySelector('#todoList');
 var newTodo = document.querySelector('#newTodo');
 
+
 function App() {
     this.allTask = [];
 }
     
 App.prototype.addTask = function(value) {
-    const task = new Task(value);
+    var task = new Task(value);
     console.log(task);
     this.allTask.push(task);
 }
 
-var appNew = new App();
+var arr = new App();
 
 function Task(value) {
     this.id = new Date().getTime();
@@ -27,9 +28,9 @@ function getTextTask() {
 }
 
 function makeTask() {
-    const text = getTextTask();
+    var text = getTextTask();
     if (text) {
-        appNew.addTask(text);
+        arr.addTask(text);
         render();
     }
 }
@@ -39,17 +40,18 @@ function render() {
         todoList.removeChild(todoList.lastChild);
     }
     var fragment = document.createDocumentFragment();
-    appNew.allTask.forEach(function(task) {
+    arr.allTask.forEach(function(task) {
         var rowTask = createTask(task);
         fragment.append(rowTask);
     });
     todoList.append(fragment);
 }
 
-function createBtn(text) {
+function createBtn(text, func) {
     var btn = document.createElement('button');
     btn.append(text);
     btn.classList.add(text);
+    btn.addEventListener('click', func);
     return btn;
 }
 
@@ -58,19 +60,24 @@ function createTask(task) {
     var text = document.createTextNode(task.value);
     var span = document.createElement('span');
     span.append(text);
-    listItem.append(createBtn('Complete'));
+    listItem.append(createBtn("Complete", completeTask));
     listItem.append(span);
-    listItem.append(createBtn('Delete'));
+    listItem.append(createBtn("Delete", deleteTask));
     listItem.classList.add('container');
-    listItem.classList.add(task.isCompleted ? 'is__completed' : 'non__completed');
+    listItem.classList.add(task.isComplete ? 'is__complete' : 'non__completed');
     return listItem;
 }
 
 newTodo.addEventListener('click', makeTask);     
 
-var completeBtn = document.querySelector('.Complete');
-var nonComplete = document.querySelector('.non__Complete');
+function completeTask() {
+    console.log('complete');
+    var taskComp = "Complete";
+    return taskComp
+}
 
-function isComplete() {
-
+function deleteTask() {
+    console.log('delete')
+    var taskDel = "Delete";
+    return taskDel
 }

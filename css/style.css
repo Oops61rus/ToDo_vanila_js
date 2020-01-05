@@ -17,3 +17,7 @@ div {
 .is__complete {
   text-decoration: line-through;
 }
+
+.non__completed {
+  text-decoration: none;
+}
