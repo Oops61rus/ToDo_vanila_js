@@ -32,6 +32,7 @@ function makeTask() {
     if (text) {
         arr.addTask(text);
         render();
+        console.log(arr.allTask)
     }
 }
 
@@ -64,7 +65,7 @@ function createTask(task) {
     listItem.append(span);
     listItem.append(createBtn("Delete", deleteTask));
     listItem.classList.add('container');
-    listItem.classList.add(task.isComplete ? 'is__complete' : 'non__completed');
+    span.classList.add(task.isComplete ? 'is__complete' : 'non__completed');
     return listItem;
 }
 
@@ -72,12 +73,12 @@ newTodo.addEventListener('click', makeTask);
 
 function completeTask() {
     console.log('complete');
-    var taskComp = "Complete";
-    return taskComp
+    arr.allTask[0].isComplete = !arr.allTask[0].isComplete;
+    render();
 }
 
 function deleteTask() {
-    console.log('delete')
-    var taskDel = "Delete";
-    return taskDel
+    console.log('delete');
+    arr.allTask.splice(0, 1);
+    render();
 }
