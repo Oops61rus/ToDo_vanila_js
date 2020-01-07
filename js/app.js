@@ -48,11 +48,13 @@ function render() {
     todoList.append(fragment);
 }
 
-function createBtn(text, func) {
+function createBtn(text, func, id) {
     var btn = document.createElement('button');
     btn.append(text);
     btn.classList.add(text);
-    btn.addEventListener('click', func);
+    btn.addEventListener('click', function() {
+        func(id);
+    });
     return btn;
 }
 
@@ -61,9 +63,9 @@ function createTask(task) {
     var text = document.createTextNode(task.value);
     var span = document.createElement('span');
     span.append(text);
-    listItem.append(createBtn("Complete", completeTask));
+    listItem.append(createBtn("Complete", completeTask, task.id));
     listItem.append(span);
-    listItem.append(createBtn("Delete", deleteTask));
+    listItem.append(createBtn("Delete", deleteTask, task.id));
     listItem.classList.add('container');
     span.classList.add(task.isComplete ? 'is__complete' : 'non__completed');
     return listItem;
@@ -71,14 +73,20 @@ function createTask(task) {
 
 newTodo.addEventListener('click', makeTask);     
 
-function completeTask() {
-    console.log('complete');
-    arr.allTask[0].isComplete = !arr.allTask[0].isComplete;
+function completeTask(id) {
+    arr.allTask.forEach( function(item, i) {
+        if(item.id === id){
+            arr.allTask[i].isComplete = !arr.allTask[i].isComplete;
+        }
+    });
     render();
 }
 
-function deleteTask() {
-    console.log('delete');
-    arr.allTask.splice(0, 1);
+function deleteTask(id) {
+    arr.allTask.forEach( function(item, i) {
+        if(item.id === id){
+            arr.allTask.splice(i, 1);
+        }
+    });
     render();
 }
