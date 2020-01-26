@@ -13,7 +13,7 @@ App.prototype.addTask = function(value) {
     this.allTask.push(task);
 }
 
-var arr = new App();
+var newApp = new App();
 
 function Task(value) {
     this.id = new Date().getTime();
@@ -30,22 +30,36 @@ function getTextTask() {
 function makeTask() {
     var text = getTextTask();
     if (text) {
-        arr.addTask(text);
+        newApp.addTask(text);
         render();
-        console.log(arr.allTask)
+        console.log(newApp.allTask)
     }
 }
+
+var filterState = 0;
 
 function render() {
     while (todoList.lastChild) {
         todoList.removeChild(todoList.lastChild);
     }
     var fragment = document.createDocumentFragment();
-    arr.allTask.forEach(function(task) {
+    var arr = filter();
+
+    arr.forEach(function(task) {
         var rowTask = createTask(task);
         fragment.append(rowTask);
     });
     todoList.append(fragment);
+}
+
+function filter() {
+    var arr = newApp.allTask;
+    if (filterState !==0) {
+        arr = newApp.allTask.filter( function(task) {
+            return filterState === 1 ? !task.isComplete : task.isComplete;
+        })
+    };
+    return arr;
 }
 
 function createBtn(text, func, id) {
@@ -74,19 +88,46 @@ function createTask(task) {
 newTodo.addEventListener('click', makeTask);     
 
 function completeTask(id) {
-    arr.allTask.forEach( function(item, i) {
+    newApp.allTask.forEach( function(item, i) {
         if(item.id === id){
-            arr.allTask[i].isComplete = !arr.allTask[i].isComplete;
+            newApp.allTask[i].isComplete = !newApp.allTask[i].isComplete;
         }
     });
     render();
 }
 
 function deleteTask(id) {
-    arr.allTask.forEach( function(item, i) {
+    newApp.allTask.forEach( function(item, i) {
         if(item.id === id){
-            arr.allTask.splice(i, 1);
+            newApp.allTask.splice(i, 1);
         }
     });
     render();
 }
+
+function filter0() {
+    filterState = 0;
+    render();
+}
+
+function filter1() {
+    filterState = 1;
+    render();
+}
+
+function filter2() {
+    filterState = 2;
+    render();
+}
+
+
+var btnAll = document.querySelector('#all');
+var btnActive = document.querySelector('#active');
+var btnCompleted = document.querySelector('#completed');
+
+
+btnAll.addEventListener('click', filter0); 
+btnActive.addEventListener('click', filter1); 
+btnCompleted.addEventListener('click', filter2); 
+
+
