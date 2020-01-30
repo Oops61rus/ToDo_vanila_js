@@ -1,9 +1,3 @@
-function Task(value) {
-    this.id = new Date().getTime();
-    this.isComplete = false;
-    this.value = value;
-}
-
 function TaskCreator() {}
 
 TaskCreator.prototype = {
@@ -22,14 +16,13 @@ TaskCreator.prototype = {
         var text = document.createTextNode(task.value);
         var span = document.createElement('span');
         span.append(text);
-        listItem.append(taskCreator.createBtn("Complete", newApp.completeTask, task.id));
+        listItem.append(this.createBtn("Complete", newApp.completeTask.bind(newApp), task.id));
         listItem.append(span);
-        listItem.append(taskCreator.createBtn("Delete", newApp.deleteTask, task.id));
+        listItem.append(this.createBtn("Delete", newApp.deleteTask.bind(newApp), task.id));
         listItem.classList.add('container');
         span.classList.add(task.isComplete ? 'is__complete' : 'non__completed');
         return listItem;
     }
-    
 }
 
 var taskCreator = new TaskCreator();

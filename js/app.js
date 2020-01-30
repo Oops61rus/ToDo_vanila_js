@@ -1,17 +1,19 @@
-var field = document.querySelector('#inputField');
-var todoList = document.querySelector('#todoList');
-var newTodo = document.querySelector('#newTodo');
-
-
 function App() {
     this.allTask = [];
+
+    this.init = function() {
+        var addTodoBtn = document.querySelector('#addTodoBtn');
+        addTodoBtn.addEventListener('click', this.createTaskOnClick.bind(this));
+        this.field = document.querySelector('#inputField');
+        this.todoList = document.querySelector('#todoList');
+    }
 }
     
 App.prototype = {
     addTask: function(value) {
         var task = new Task(value);
         console.log(task);
-        this.allTask.push(task);
+        this.allTask.unshift(task);
     },
 
     render: function() {
@@ -20,47 +22,52 @@ App.prototype = {
         }
         var fragment = document.createDocumentFragment();
         var arr = filter();
-    
+
+        arr = getPagingTodos(page, arr);
+        
         arr.forEach(function(task) {
             var rowTask = taskCreator.createBtnForTask(task);
             fragment.append(rowTask);
         });
         todoList.append(fragment);
+        page.renderPagination(arr.length);
     },
 
     getTextTask: function() {
-        var todo = field.value;
-        field.value = "";
+        var todo = this.field.value;
+        this.field.value = "";
         return todo;
     },
 
     createTaskOnClick: function() {
-        var text = newApp.getTextTask();
+        var text = this.getTextTask();
         if (text) {
-            newApp.addTask(text);
-            newApp.render();
+            this.addTask(text);
+            this.render();
         }
     },
-
+    
     completeTask: function(id) {
-        newApp.allTask.forEach( function(item, i) {
+        var self = this;
+        this.allTask.forEach( function(item, i) {
             if(item.id === id){
-                newApp.allTask[i].isComplete = !newApp.allTask[i].isComplete;
+                self.allTask[i].isComplete = !self.allTask[i].isComplete;
             }
         });
-        newApp.render();
+        this.render();
     },
 
     deleteTask: function(id) {
-        newApp.allTask.forEach( function(item, i) {
+        var self = this
+        this.allTask.forEach( function(item, i) {
             if(item.id === id){
-                newApp.allTask.splice(i, 1);
+                self.allTask.splice(i, 1);
             }
         });
-        newApp.render();
+        this.render();
     }
 }
 
 var newApp = new App();
 
-newTodo.addEventListener('click', newApp.createTaskOnClick);
+newApp.init();
