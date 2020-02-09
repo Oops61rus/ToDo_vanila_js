@@ -21,3 +21,14 @@ div {
 .non__completed {
   text-decoration: none;
 }
+
+.pagingContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.pageNumber {
+  width: 10%;
+  margin: auto;
+}

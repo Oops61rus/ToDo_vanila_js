@@ -21,16 +21,18 @@ App.prototype = {
             todoList.removeChild(todoList.lastChild);
         }
         var fragment = document.createDocumentFragment();
-        var arr = filter();
+        var arr = filter(newApp.allTask, newApp.render);
 
-        arr = getPagingTodos(page, arr);
+        // var page = document.querySelector('.pageNumber');
+
+        // arr = paging.getPagingTodos(page, arr);
         
         arr.forEach(function(task) {
             var rowTask = taskCreator.createBtnForTask(task);
             fragment.append(rowTask);
         });
         todoList.append(fragment);
-        page.renderPagination(arr.length);
+        paging.renderPagination(arr.length);
     },
 
     getTextTask: function() {
@@ -58,7 +60,7 @@ App.prototype = {
     },
 
     deleteTask: function(id) {
-        var self = this
+        var self = this;
         this.allTask.forEach( function(item, i) {
             if(item.id === id){
                 self.allTask.splice(i, 1);

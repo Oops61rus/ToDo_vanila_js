@@ -18,15 +18,16 @@ function Paging() {
             var div = document.createElement('div');
             var text = document.createTextNode(i);
             div.append(text);
+            div.classList.add('pageNumber')
             fragment.append(div)
         }
         this.container.append(fragment);
     }
 
-    this.getPagingTodos = function(page, arr) {
-        return arr.slice(( page - 1 ) * 5, page * 5)
-    }
+        // this.getPagingTodos = function(page, arr) {
+        //     return arr.slice(( page - 1 ) * 5, page * 5)
+        // }
 }
 
-var page = new Paging();
-page.init();
+var paging = new Paging();
+paging.init();
