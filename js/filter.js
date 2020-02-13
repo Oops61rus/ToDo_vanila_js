@@ -3,6 +3,7 @@ function Filter(arr, func) {
   this.btnActive = document.querySelector("#active");
   this.btnCompleted = document.querySelector("#completed");
   this.filterState = 0;
+  this.getFilteringArr();
 
   this.initListeners = function(callback, removeClass) {
     var that = this;
@@ -59,4 +60,3 @@ Filter.prototype = {
 };
   
 var filter = new Filter();
-filter.getFilteringArr();

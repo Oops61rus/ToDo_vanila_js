@@ -22,17 +22,20 @@ div {
   text-decoration: none;
 }
 
-.pagingContainer {
+#pagingContainer {
   width: 100%;
   display: flex;
   flex-wrap: nowrap;
+  justify-content: center;
 }
 
 .pageNumber {
   width: 30px;
   margin: 10px;
+  cursor: pointer;
 }
 
 .activeBtn {
   background-color: green;
+  color: white;
 }

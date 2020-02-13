@@ -1,37 +1,57 @@
 function Paging() {
+  this.setPageSize = function() {
+    var setSize = document.querySelector('.btn-pg');
+    setSize.addEventListener('click', function() {
+      this.pageSize;
+      newApp.render();
+    })
+  }
+  
   this.renderPagination = function(length) {
-    var num = Math.ceil(length / 5);
-    if (num > 1) {
-      this.makePageButtons(num);
+    while (this.container.lastChild) {
+      this.container.removeChild(this.container.lastChild);
     }
+    
+    var num = Math.ceil(length / this.pageSize);
+    if (length > this.pageSize) {
+      this.makePageButtons(num);
+    };
   };
   
   this.init = function() {
     this.container = document.querySelector("#pagingContainer");
+    this.pageSize = +document.querySelector('#paging').value;
   };
 
-  this.makePageButtons = function(num) {
-    while (this.container.lastChild) {
-      this.container.removeChild(this.container.lastChild);
-    }
+  this.activePage = 1;
+
+  this.getPagingTodos = function(arr) {
+    var x = arr.slice(( this.activePage - 1 ) * this.pageSize, this.activePage * this.pageSize);
+    return x;
+  }
+
+  this.init();
+}
+
+Paging.prototype = {
+  makePageButtons: function(num) {
     var fragment = document.createDocumentFragment();
     for (var i = 1; i <= num; i++) {
       var div = document.createElement('div');
-      var a = document.createElement('a');
-      a.setAttribute('href', i);
       var text = document.createTextNode(i);
-      a.append(text);
-      div.append(a);
+      div.append(text);
       div.classList.add('pageNumber');
+      div.addEventListener('click', this.handleClick.bind(this, i));
       fragment.append(div);
     }
     this.container.append(fragment);
-  };
+  },
 
-  // this.getPagingTodos = function(page, arr) {
-  //   return arr.slice(( page - 1 ) * 5, page * 5)
-  // }
+  handleClick: function(index) {
+    this.activePage = index;
+    newApp.render();
+    // storage.setData('tasks', this.allTask);
+  }
 }
 
 var paging = new Paging();
-paging.init();
