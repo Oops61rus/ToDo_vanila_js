@@ -1,10 +1,13 @@
 function Paging() {
+  this.pageSize = 5;
+  
   this.setPageSize = function() {
     var setSize = document.querySelector('.btn-pg');
     setSize.addEventListener('click', function() {
-      this.pageSize;
+      this.pageSize = +document.querySelector('#paging').value;
       newApp.render();
-    })
+      return this.pageSize;
+    });
   }
   
   this.renderPagination = function(length) {
@@ -20,13 +23,13 @@ function Paging() {
   
   this.init = function() {
     this.container = document.querySelector("#pagingContainer");
-    this.pageSize = +document.querySelector('#paging').value;
   };
 
   this.activePage = 1;
 
   this.getPagingTodos = function(arr) {
     var x = arr.slice(( this.activePage - 1 ) * this.pageSize, this.activePage * this.pageSize);
+    // debugger;
     return x;
   }
 
