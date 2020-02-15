@@ -1,13 +1,14 @@
 function App() {
   this.allTask = storage.getData('tasks');
 
-  
+
   this.init = function() {
-    var addTodoBtn = document.querySelector("#addTodoBtn");
-    addTodoBtn.addEventListener("click", this.createTaskOnClick.bind(this));
-    this.field = document.querySelector("#inputField");
-    this.todoList = document.querySelector("#todoList");
+    var addTodoBtn = document.querySelector('#addTodoBtn');
+    addTodoBtn.addEventListener('click', this.createTaskOnClick.bind(this));
+    this.field = document.querySelector('#inputField');
+    this.todoList = document.querySelector('#todoList');
     filter.initListeners(this.render.bind(this));
+    paging.init(this.render.bind(this))
     this.render();
   };
 }
@@ -20,18 +21,19 @@ App.prototype = {
   },
 
   render: function() {
+    var self = this;
     while (todoList.lastChild) {
       todoList.removeChild(todoList.lastChild);
     }
     var fragment = document.createDocumentFragment();
     var arr = filter.getFilteringArr(this.allTask);
     
-    paging.renderPagination(arr.length);
+    paging.renderPagination(arr.length, this.render);
 
     arr = paging.getPagingTodos(arr);
     
     arr.forEach(function(task) {
-      var rowTask = taskCreator.createBtnForTask(task);
+      var rowTask = taskCreator.createBtnForTask(task, self.completeTask.bind(self), self.deleteTask.bind(self));
       fragment.append(rowTask);
     });
     todoList.append(fragment);

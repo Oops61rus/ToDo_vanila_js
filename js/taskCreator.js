@@ -11,19 +11,19 @@ TaskCreator.prototype = {
     return btn;
   },
 
-  createBtnForTask: function(task) {
-    var listItem = document.createElement("li");
+  createBtnForTask: function(task, completeTaskFunc, deleteTaskFunc) {
+    var listItem = document.createElement('li');
     var text = document.createTextNode(task.value);
-    var span = document.createElement("span");
+    var span = document.createElement('span');
     span.append(text);
     listItem.append(
-      this.createBtn("Complete", newApp.completeTask.bind(newApp), task.id)
+      this.createBtn('Complete', completeTaskFunc, task.id)
     );
     listItem.append(span);
     listItem.append(
-      this.createBtn("Delete", newApp.deleteTask.bind(newApp), task.id)
+      this.createBtn('Delete', deleteTaskFunc, task.id)
     );
-    listItem.classList.add("container");
+    listItem.classList.add('container');
     span.classList.add(task.isComplete ? "is__complete" : "non__completed");
     return listItem;
   }
