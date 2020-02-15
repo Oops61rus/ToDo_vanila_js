@@ -1,7 +1,8 @@
 function Paging() {
-  this.pageSize = 5;
-  this.activePage = 1;
+  this.pageSize = storage.getData('taskOnPage');
+  this.activePage = storage.getData('activePage');
   this.container = document.querySelector("#pagingContainer");
+  
   
   this.init = function(callback) {
     var self = this;
@@ -38,8 +39,8 @@ Paging.prototype = {
     };
   },
   
-  getPagingTodos: function(arr) {
-    this.renderPagination(arr.length);
+  getPagingTodos: function(arr, callback) {
+    this.renderPagination(arr.length, callback);
     return arr.slice(( this.activePage - 1 ) * this.pageSize, this.activePage * this.pageSize);
   },
   

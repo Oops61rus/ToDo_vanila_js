@@ -1,47 +1,52 @@
 function Filter(arr, func) {
-  this.btnAll = document.querySelector("#all");
-  this.btnActive = document.querySelector("#active");
-  this.btnCompleted = document.querySelector("#completed");
-  this.filterState = 0;
-  this.getFilteringArr();
+  this.filterState = storage.getData('activeFilter');
+  this.filterContainer = document.querySelector('#filterContainer');
+  
+  this.map = {
+    all: null,
+    active: null,
+    completed: null
+  };
 
-  this.initListeners = function(callback, removeClass) {
-    var that = this;
-    this.btnAll.addEventListener("click", function() {
-      that.filterState = 0;
-      that.removeClass();
-      callback();
+  this.init = function(callback) {    
+    var fragment = document.createDocumentFragment();
+    var self = this;
+    Object.keys(this.map).forEach(function(key) {
+      var button = document.createElement('button');
+      var text = document.createTextNode(key);
+      button.id = key;
+      button.append(text);
+      button.classList.add(key === self.filterState ? 'activeBtn' : 'btn')
+      button.addEventListener('click', self.handlerFilter.bind(self, key, callback));
+      self.map[key] = button;
+      fragment.append(button);
     });
-    this.btnActive.addEventListener("click", function() {
-      that.filterState = 1;
-      that.removeClass();
-      callback();
-    });
-    this.btnCompleted.addEventListener("click", function() {
-      that.filterState = 2;
-      that.removeClass();
-      callback();
-    });
+    this.filterContainer.append(fragment);
   }
 }
 
 Filter.prototype = {
+  handlerFilter: function(key, callback) {
+    this.filterState = key;
+    paging.activePage = 1;
+    this.removeClass();
+    this.map[key].classList.add('activeBtn')
+    callback();
+  },
+
   getFilteringArr: function(arr) {
     var filteredArr = [];
     switch (this.filterState) {
-      case 0: 
-        this.btnAll.classList.add('activeBtn');
+      case 'all': 
         return arr;
-      case 1: 
-        this.btnActive.classList.add('activeBtn');
+      case 'active': 
         arr.forEach(function(item) {
           if(item.isComplete === false) {
             filteredArr.push(item);
           };
         });
       break;
-      case 2:
-        this.btnCompleted.classList.add('activeBtn'); 
+      case 'completed':
         arr.forEach(function(item) {
           if(item.isComplete === true) {
             filteredArr.push(item);
@@ -53,10 +58,11 @@ Filter.prototype = {
   },
   
   removeClass: function() {
-    this.btnAll.classList.remove('activeBtn');
-    this.btnActive.classList.remove('activeBtn');
-    this.btnCompleted.classList.remove('activeBtn');
+    var self = this;
+    Object.keys(this.map).forEach(function(key) {
+      self.map[key].classList.remove('activeBtn');
+    })
   }
 };
-  
+
 var filter = new Filter();

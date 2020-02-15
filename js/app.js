@@ -1,13 +1,12 @@
 function App() {
   this.allTask = storage.getData('tasks');
 
-
   this.init = function() {
     var addTodoBtn = document.querySelector('#addTodoBtn');
     addTodoBtn.addEventListener('click', this.createTaskOnClick.bind(this));
     this.field = document.querySelector('#inputField');
     this.todoList = document.querySelector('#todoList');
-    filter.initListeners(this.render.bind(this));
+    filter.init(this.render.bind(this));
     paging.init(this.render.bind(this))
     this.render();
   };
@@ -27,10 +26,7 @@ App.prototype = {
     }
     var fragment = document.createDocumentFragment();
     var arr = filter.getFilteringArr(this.allTask);
-    
-    paging.renderPagination(arr.length, this.render);
-
-    arr = paging.getPagingTodos(arr);
+    arr = paging.getPagingTodos(arr, this.render.bind(this));
     
     arr.forEach(function(task) {
       var rowTask = taskCreator.createBtnForTask(task, self.completeTask.bind(self), self.deleteTask.bind(self));
@@ -38,6 +34,9 @@ App.prototype = {
     });
     todoList.append(fragment);
     storage.setData('tasks', this.allTask);
+    storage.setData('activeFilter', filter.filterState);
+    storage.setData('activePage', paging.activePage);
+    storage.setData('taskOnPage', paging.pageSize);
   },
 
   getTextTask: function() {
