@@ -16,13 +16,9 @@ TaskCreator.prototype = {
     var text = document.createTextNode(task.value);
     var span = document.createElement('span');
     span.append(text);
-    listItem.append(
-      this.createBtn('Complete', completeTaskFunc, task.id)
-    );
+    listItem.append(this.createBtn('Complete', completeTaskFunc, task.id));
     listItem.append(span);
-    listItem.append(
-      this.createBtn('Delete', deleteTaskFunc, task.id)
-    );
+    listItem.append(this.createBtn('Delete', deleteTaskFunc, task.id));
     listItem.classList.add('container');
     span.classList.add(task.isComplete ? "is__complete" : "non__completed");
     return listItem;

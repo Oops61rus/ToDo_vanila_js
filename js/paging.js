@@ -1,8 +1,8 @@
 function Paging() {
+  // this.pageSize = 5;
   this.pageSize = storage.getData('taskOnPage');
   this.activePage = storage.getData('activePage');
   this.container = document.querySelector("#pagingContainer");
-  
   
   this.init = function(callback) {
     var self = this;
@@ -23,6 +23,7 @@ Paging.prototype = {
       div.append(text);
       div.classList.add('pageNumber');
       div.addEventListener('click', this.handleClick.bind(this, i, callback));
+      div.classList.add(this.activePage === i ? 'activePg' : 'Pg')
       fragment.append(div);
     }
     this.container.append(fragment);

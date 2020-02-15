@@ -1,17 +1,29 @@
 body {
   margin: 20px auto;
-  width: 500px;
+  width: 350px;
 }
 
 div {
   margin-top: 10px;
 }
 
+button {
+  width: 75px;
+}
+
+#todoList {
+  padding: 0;
+}
+
+#addTodoBtn, #btn-pg {
+  width: 150px;
+}
+
 .container {
   display: flex;
   justify-content: space-between;
-  width: 300px;
   list-style-type: none;
+  margin: 5px;  
 }
 
 .is__complete {
@@ -22,6 +34,11 @@ div {
   text-decoration: none;
 }
 
+#filterContainer {
+  display: flex;
+  justify-content: center;
+}
+
 #pagingContainer {
   width: 100%;
   display: flex;
@@ -30,7 +47,6 @@ div {
 }
 
 .pageNumber {
-  width: 30px;
   margin: 10px;
   cursor: pointer;
 }
@@ -38,4 +54,9 @@ div {
 .activeBtn {
   background-color: green;
   color: white;
+}
+
+.activePg {
+  color: green;
+  font-weight: bold;
 }
