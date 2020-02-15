@@ -1,5 +1,4 @@
 function Paging() {
-  // this.pageSize = 5;
   this.pageSize = storage.getData('taskOnPage');
   this.activePage = storage.getData('activePage');
   this.container = document.querySelector("#pagingContainer");
@@ -23,7 +22,7 @@ Paging.prototype = {
       div.append(text);
       div.classList.add('pageNumber');
       div.addEventListener('click', this.handleClick.bind(this, i, callback));
-      div.classList.add(this.activePage === i ? 'activePg' : 'Pg')
+      div.classList.add(this.activePage === i ? 'activePg' : 'pg')
       fragment.append(div);
     }
     this.container.append(fragment);
@@ -42,6 +41,10 @@ Paging.prototype = {
   
   getPagingTodos: function(arr, callback) {
     this.renderPagination(arr.length, callback);
+    // if (arr.length == 0) {
+      // this.activePage = this.activePage - 1;
+      // callback();
+    // };
     return arr.slice(( this.activePage - 1 ) * this.pageSize, this.activePage * this.pageSize);
   },
   

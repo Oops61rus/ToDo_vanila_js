@@ -30,7 +30,7 @@ Filter.prototype = {
     this.filterState = key;
     paging.activePage = 1;
     this.removeClass();
-    this.map[key].classList.add('activeBtn')
+    this.map[key].classList.add('activeBtn');
     callback();
   },
 

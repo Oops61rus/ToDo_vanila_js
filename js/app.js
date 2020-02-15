@@ -15,7 +15,6 @@ function App() {
 App.prototype = {
   addTask: function(value) {
     var task = new Task(value);
-    console.log(task);
     this.allTask.unshift(task);
   },
 
