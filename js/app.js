@@ -2,8 +2,14 @@ function App() {
   this.allTask = storage.getData('tasks');
 
   this.init = function() {
+    var self = this;
     var addTodoBtn = document.querySelector('#addTodoBtn');
     addTodoBtn.addEventListener('click', this.createTaskOnClick.bind(this));
+    var inputField = document.querySelector('#inputField')
+    inputField.onkeyup = function(e) {
+      if (e.key !== 'Enter') return;
+      self.createTaskOnClick();
+    }
     this.field = document.querySelector('#inputField');
     this.todoList = document.querySelector('#todoList');
     filter.init(this.render.bind(this));
