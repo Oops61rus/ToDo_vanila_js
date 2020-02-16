@@ -15,7 +15,7 @@ function App() {
 App.prototype = {
   addTask: function(value) {
     var task = new Task(value);
-    this.allTask.unshift(task);
+    this.allTask.push(task);
   },
 
   render: function() {
@@ -26,6 +26,11 @@ App.prototype = {
     var fragment = document.createDocumentFragment();
     var arr = filter.getFilteringArr(this.allTask);
     arr = paging.getPagingTodos(arr, this.render.bind(this));
+    
+    if (arr.length == 0 && paging.activePage > 1) {
+      paging.activePage = paging.activePage - 1;
+      this.render();
+    };
     
     arr.forEach(function(task) {
       var rowTask = taskCreator.createBtnForTask(task, self.completeTask.bind(self), self.deleteTask.bind(self));

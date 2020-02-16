@@ -41,10 +41,6 @@ Paging.prototype = {
   
   getPagingTodos: function(arr, callback) {
     this.renderPagination(arr.length, callback);
-    // if (arr.length == 0) {
-      // this.activePage = this.activePage - 1;
-      // callback();
-    // };
     return arr.slice(( this.activePage - 1 ) * this.pageSize, this.activePage * this.pageSize);
   },
   
