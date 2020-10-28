@@ -18,11 +18,9 @@ Sort.prototype = {
     if (this.activeSort === "up") {
       this.sortBtn.classList.add("up");
     }
-    return;
   },
 
   renderReverse: function (arr) {
-    // var sortBtn = document.querySelector("#sort");
     if (this.sortBtn.classList.contains("up")) {
       storage.setData("sortType", "up");
     } else {
