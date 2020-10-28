@@ -1,61 +1,70 @@
 function App() {
-  this.allTask = storage.getData('tasks');
+  this.allTask = storage.getData("tasks");
 
-  this.init = function() {
+  this.init = function () {
     var self = this;
-    var addTodoBtn = document.querySelector('#addTodoBtn');
-    addTodoBtn.addEventListener('click', this.createTaskOnClick.bind(this));
-    var inputField = document.querySelector('#inputField')
-    inputField.onkeyup = function(e) {
-      if (e.key !== 'Enter') return;
+    var addTodoBtn = document.querySelector("#addTodoBtn");
+    addTodoBtn.addEventListener("click", this.createTaskOnClick.bind(this));
+    var inputField = document.querySelector("#inputField");
+    inputField.onkeyup = function (e) {
+      if (e.key !== "Enter") return;
       self.createTaskOnClick();
-    }
-    this.field = document.querySelector('#inputField');
-    this.todoList = document.querySelector('#todoList');
+    };
+    this.field = document.querySelector("#inputField");
+    this.todoList = document.querySelector("#todoList");
     filter.init(this.render.bind(this));
-    paging.init(this.render.bind(this))
+    paging.init(this.render.bind(this));
+    sort.init(this.allTask, this.render.bind(this));
+    storage.setData("sortType", sort.activeSort);
     this.render();
   };
 }
 
 App.prototype = {
-  addTask: function(value) {
+  addTask: function (value) {
     var task = new Task(value);
-    this.allTask.push(task);
+    var sortBtn = document.querySelector("#sort");
+    sortBtn.classList.contains("up")
+      ? this.allTask.unshift(task)
+      : this.allTask.push(task);
   },
 
-  render: function() {
+  render: function () {
     var self = this;
-    while (todoList.lastChild) {
-      todoList.removeChild(todoList.lastChild);
+    while (this.todoList.lastChild) {
+      this.todoList.removeChild(this.todoList.lastChild);
     }
     var fragment = document.createDocumentFragment();
     var arr = filter.getFilteringArr(this.allTask);
     arr = paging.getPagingTodos(arr, this.render.bind(this));
-    
+
     if (arr.length == 0 && paging.activePage > 1) {
       paging.activePage = paging.activePage - 1;
       this.render();
-    };
-    
-    arr.forEach(function(task) {
-      var rowTask = taskCreator.createBtnForTask(task, self.completeTask.bind(self), self.deleteTask.bind(self));
+    }
+
+    arr.forEach(function (task) {
+      var rowTask = taskCreator.createBtnForTask(
+        task,
+        self.completeTask.bind(self),
+        self.deleteTask.bind(self)
+      );
       fragment.append(rowTask);
     });
     todoList.append(fragment);
-    storage.setData('tasks', this.allTask);
-    storage.setData('activeFilter', filter.filterState);
-    storage.setData('activePage', paging.activePage);
-    storage.setData('taskOnPage', paging.pageSize);
+    storage.setData("tasks", this.allTask);
+    storage.setData("activeFilter", filter.filterState);
+    storage.setData("activePage", paging.activePage);
+    storage.setData("taskOnPage", paging.pageSize);
   },
 
-  getTextTask: function() {
+  getTextTask: function () {
     var todo = this.field.value;
     this.field.value = "";
     return todo;
   },
 
-  createTaskOnClick: function() {
+  createTaskOnClick: function () {
     var text = this.getTextTask();
     if (text) {
       this.addTask(text);
@@ -63,9 +72,9 @@ App.prototype = {
     }
   },
 
-  completeTask: function(id) {
+  completeTask: function (id) {
     var self = this;
-    this.allTask.forEach(function(item, i) {
+    this.allTask.forEach(function (item, i) {
       if (item.id === id) {
         self.allTask[i].isComplete = !self.allTask[i].isComplete;
       }
@@ -73,15 +82,15 @@ App.prototype = {
     this.render();
   },
 
-  deleteTask: function(id) {
+  deleteTask: function (id) {
     var self = this;
-    this.allTask.forEach(function(item, i) {
+    this.allTask.forEach(function (item, i) {
       if (item.id === id) {
         self.allTask.splice(i, 1);
       }
     });
     this.render();
-  }
+  },
 };
 
 var newApp = new App();
