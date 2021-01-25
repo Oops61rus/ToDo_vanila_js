@@ -8,7 +8,9 @@ The application has a pagination. Also you can set task on each page
 The application has a filter allowing you select all tasks, active and completed tasks.
 The app can sort your tasks in reverse order.
 
-To start the project run
-
-## index.html
-or open https://oops61rus.github.io/ToDo_vanila_js/
+To start the project run 
+```
+index.html
+```
+or open 
+[this link](https://oops61rus.github.io/ToDo_vanila_js/)
